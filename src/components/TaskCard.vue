@@ -3,8 +3,8 @@
         <q-card-section horizontal>
             <div class="task--description">{{ task.title }}</div>
             <q-card-actions horizontal class="justify-around flex task--actions">
-                <q-checkbox v-model="isDone"></q-checkbox>
-                <q-btn flat icon="delete" color="negative" @click.stop="deleteTask"></q-btn>
+                <q-checkbox v-model="completed"></q-checkbox>
+                <q-btn flat icon="delete" color="negative" @click="deleteTask"></q-btn>
             </q-card-actions>
         </q-card-section>
     </q-card>
@@ -21,17 +21,17 @@ const props = defineProps({
 })
 const emit = defineEmits(['setTaskCompleted'])
 const tasksStore = useTasksStore()
-const isDone = computed({
+const completed = computed({
   get () {
-    return props.task.isDone
+    return props.task.completed
   },
   set (val) {
-    tasksStore.UPDATE_TASK({ ...props.task, isDone: val })
+    tasksStore.UPDATE_TASK({ ...props.task, completed: val })
     emit('setTaskCompleted', val)
   }
 })
 const deleteTask = () => {
-  tasksStore.DELETE_TASK(props.task)
+  tasksStore.DELETE_TASK({ id: props.task.id })
 }
 </script>
 

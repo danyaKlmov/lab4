@@ -15,37 +15,19 @@ export const useTasksStore = defineStore('tasks', {
         return err
       }
     },
-    async ADD_TASK (todo) {
+    async UPDATE_TASK (payload) {
       try {
-        await api.post('/todos', todo)
-        await this.GET_TASKS()
+        const taskIndex = this.tasks.findIndex((task) => task.id === payload.id)
+        this.tasks[taskIndex] = payload
       } catch (err) {
         console.log(err)
         return err
       }
     },
-    async UPDATE_TASK (todo) {
+    async DELETE_TASK (payload) {
       try {
-        await api.put(`/todos/${todo._id}`, todo)
-        await this.GET_TASKS()
-      } catch (err) {
-        console.log(err)
-        return err
-      }
-    },
-    async DELETE_TASK (todo) {
-      try {
-        await api.delete(`/todos/${todo._id}`)
-        await this.GET_TASKS()
-      } catch (err) {
-        console.log(err)
-        return err
-      }
-    },
-    async DELETE_ALL (todo) {
-      try {
-        await api.delete('/todos')
-        await this.GET_TASKS()
+        const taskIndex = this.tasks.findIndex((task) => task.id === payload.id)
+        this.tasks.splice(taskIndex, 1)
       } catch (err) {
         console.log(err)
         return err
